@@ -1,6 +1,9 @@
 # Root level gitignore
 # Frontend and backend have their own .gitignore files
 
+# Dependencies
+node_modules/
+
 # OS
 .DS_Store
 Thumbs.db
