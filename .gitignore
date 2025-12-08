@@ -4,6 +4,9 @@
 # Dependencies
 node_modules/
 
+# Expo
+.expo/
+
 # OS
 .DS_Store
 Thumbs.db
