@@ -37,6 +37,8 @@ npx prisma migrate dev
 npx prisma generate
 ```
 
+acces primsa studio (db interface): npx prisma studio
+
 5. Start the development server:
 ```bash
 npm run dev
@@ -125,28 +127,6 @@ backend/
    ```bash
    npx prisma db pull
    ```
-
-### Other Options
-
-See [DATABASE_ALTERNATIVES.md](./DATABASE_ALTERNATIVES.md) for:
-- Railway (free $5/month credit)
-- Render (free tier)
-- Local PostgreSQL (development only)
-
-### Setup with Local PostgreSQL (Alternative)
-
-1. Create PostgreSQL database:
-```sql
-CREATE DATABASE trickiness_db;
-```
-
-2. Update `DATABASE_URL` in `.env`:
-```
-DATABASE_URL="postgresql://user:password@localhost:5432/trickiness_db"
-```
-
-3. Run migrations (see Installation above)
-
 ### Schema
 
 See `../project-specifications/erd.png` for the complete database schema.

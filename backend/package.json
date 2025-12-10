@@ -11,19 +11,20 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
-    "@prisma/client": "^5.20.0",
     "@google/generative-ai": "^0.21.0",
+    "@prisma/client": "^5.20.0",
     "bcrypt": "^5.1.1",
     "jsonwebtoken": "^9.0.2",
-    "zod": "^3.23.8",
-    "nuxt": "^3.15.0"
+    "nuxt": "^3.15.0",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",
     "@types/bcrypt": "^5.0.2",
     "@types/jsonwebtoken": "^9.0.6",
+    "@volar/typescript": "^1.11.1",
     "prisma": "^5.20.0",
-    "typescript": "^5.6.3"
+    "typescript": "^5.6.3",
+    "vue-tsc": "^2.2.10"
   }
 }
-

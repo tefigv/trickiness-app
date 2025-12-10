@@ -11,9 +11,7 @@ export default defineNuxtConfig({
   
   // API server configuration
   nitro: {
-    // Enable CORS for mobile app
-    cors: true,
-    // API routes will be in server/api/
+    // API routes will be in server/api/ cors enabled
     routeRules: {
       '/api/**': { cors: true }
     }
@@ -22,9 +20,8 @@ export default defineNuxtConfig({
   // Runtime config for environment variables
   runtimeConfig: {
     // Private keys (only available on server-side)
-    jwtSecret: process.env.JWT_SECRET || 'your-secret-key-change-in-production',
-    geminiApiKey: process.env.GEMINI_API_KEY || '',
-    databaseUrl: process.env.DATABASE_URL || '',
+    jwtSecret: process.env.JWT_SECRET ,
+    databaseUrl: process.env.DATABASE_URL,
     
     // Public keys (exposed to client-side)
     public: {
@@ -35,6 +32,16 @@ export default defineNuxtConfig({
   typescript: {
     strict: true,
     typeCheck: true
+  },
+
+  vite: {
+    server: {
+      hmr: {
+        port: 24679 // or any free port
+      }
+    }
   }
 })
+
+
 

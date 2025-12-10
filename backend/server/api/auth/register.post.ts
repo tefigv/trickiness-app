@@ -3,6 +3,7 @@ import { z } from 'zod'
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 import prisma from '~/server/utils/prisma'
+import { rateLimit } from '~/server/utils/rateLimit'
 
 const registerSchema = z.object({
   email: z.string().email(),
@@ -13,6 +14,8 @@ const registerSchema = z.object({
 
 export default defineEventHandler(async (event) => {
   try {
+    rateLimit(`auth-register:${getHeader(event, 'x-forwarded-for') ?? getRequestIP(event) ?? 'unknown'}`, 3, 60_000)
+
     const body = await readBody(event)
     const validated = registerSchema.parse(body)
 

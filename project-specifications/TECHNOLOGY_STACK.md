@@ -385,18 +385,18 @@ Deployment: EAS Build (frontend) + Railway/Supabase (backend + DB)
 - [ ] Connect to backend API
 
 ### **Backend** ⏳
-- [ ] Initialize Node.js/Express project
-- [ ] Set up PostgreSQL database (Supabase/Neon)
-- [ ] Initialize Prisma schema from ERD
-- [ ] Run database migrations
-- [ ] Get Gemini API key
-- [ ] Set up authentication (JWT)
-- [ ] Create basic CRUD APIs
-- [ ] Implement habit endpoints
-- [ ] Implement mood logging endpoints
-- [ ] Implement journal endpoints
-- [ ] Implement goal endpoints
+- [x] Initialize Node.js/Express project
+- [x] Set up PostgreSQL database (Neon)
+- [x] Initialize Prisma schema from ERD
+- [x] Run database migrations
+- [x] Set up authentication (JWT)
+- [x] Create basic CRUD APIs
+- [x] Implement habit endpoints
+- [x] Implement mood logging endpoints
+- [x] Implement journal endpoints
+- [x] Implement goal endpoints
 - [ ] Integrate Gemini for insights
+- [ ] Get Gemini API key
 - [ ] Deploy backend to production
 
 ### **Deployment** ⏳
