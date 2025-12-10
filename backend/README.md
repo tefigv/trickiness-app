@@ -1,18 +1,16 @@
 # Trickiness App - Backend
 
-Backend API server for the Trickiness App. Handles database operations, authentication, and AI integration.
+Backend API server for the Trickiness App built with Nuxt.js. Handles database operations, authentication, and AI integration.
 
 ## 🚀 Getting Started
 
 ### Prerequisites
 
-- Node.js 18+ (or Python 3.9+ if using FastAPI)
+- Node.js 18+
 - PostgreSQL database
 - Google Gemini API key
 
 ### Installation
-
-#### Option 1: Node.js/Express (Recommended)
 
 1. Install dependencies:
 ```bash
@@ -44,7 +42,28 @@ npx prisma generate
 npm run dev
 ```
 
-#### Option 2: Python/FastAPI
+The API will be available at `http://localhost:3000/api` (or the port you configured)
+
+### Changing the Port
+
+You can change the port in three ways:
+
+1. **Environment variable** (recommended):
+   ```bash
+   # In your .env file
+   PORT=3001
+   ```
+
+2. **Command line**:
+   ```bash
+   npm run dev -- --port 3001
+   ```
+
+3. **In `nuxt.config.ts`**:
+   ```typescript
+   devServer: {
+     port: 3001
+   }
 
 1. Create virtual environment:
 ```bash
@@ -73,21 +92,48 @@ uvicorn main:app --reload
 
 ```
 backend/
-├── src/                 # Source code
-│   ├── routes/          # API routes
-│   ├── controllers/     # Request handlers
-│   ├── models/          # Database models
-│   ├── middleware/      # Express/FastAPI middleware
+├── server/              # Server-side code
+│   ├── api/             # API routes (auto-routed by Nuxt)
+│   │   ├── auth/        # Authentication endpoints
+│   │   ├── habits/      # Habit endpoints
+│   │   ├── mood/        # Mood logging endpoints
+│   │   ├── journal/     # Journal endpoints
+│   │   ├── goals/       # Goal endpoints
+│   │   └── insights/    # AI insights endpoints
 │   ├── utils/           # Utility functions
+│   ├── middleware/      # Nuxt middleware
 │   └── services/        # Business logic (AI, etc.)
-├── prisma/              # Prisma schema and migrations (if Node.js)
-├── alembic/             # Database migrations (if Python)
-└── tests/               # Test files
+├── prisma/              # Prisma schema and migrations
+└── types/                # TypeScript type definitions
 ```
 
 ## 🗄️ Database
 
-### Setup
+### Recommended: Neon (Easiest Setup)
+
+**📖 See [DATABASE_ALTERNATIVES.md](./DATABASE_ALTERNATIVES.md) for all options**
+
+**Quick setup with Neon:**
+1. Go to https://neon.tech and create a free account
+2. Create a new project
+3. Copy the connection string (shown after project creation)
+4. Add to `.env`:
+   ```env
+   DATABASE_URL="postgresql://[user]:[password]@[endpoint]/[dbname]?sslmode=require"
+   ```
+5. Test connection:
+   ```bash
+   npx prisma db pull
+   ```
+
+### Other Options
+
+See [DATABASE_ALTERNATIVES.md](./DATABASE_ALTERNATIVES.md) for:
+- Railway (free $5/month credit)
+- Render (free tier)
+- Local PostgreSQL (development only)
+
+### Setup with Local PostgreSQL (Alternative)
 
 1. Create PostgreSQL database:
 ```sql
@@ -222,8 +268,8 @@ Optional:
 
 ## 📚 Resources
 
-- [Express.js Documentation](https://expressjs.com/)
-- [FastAPI Documentation](https://fastapi.tiangolo.com/)
+- [Nuxt.js Documentation](https://nuxt.com/docs)
+- [Nuxt Server Routes](https://nuxt.com/docs/guide/directory-structure/server#api-routes)
 - [Prisma Documentation](https://www.prisma.io/docs/)
 - [Gemini API Documentation](https://ai.google.dev/docs)
 - [PostgreSQL Documentation](https://www.postgresql.org/docs/)

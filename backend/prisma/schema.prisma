@@ -1,0 +1,177 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Enums
+enum HabitType {
+  STUDY
+  GYM
+  WATER
+  SLEEP
+  OTHER
+}
+
+enum FrequencyType {
+  DAILY
+  WEEKLY
+  MONTHLY
+  CUSTOM
+}
+
+enum GoalStatus {
+  PENDING
+  ACTIVE
+  COMPLETED
+  ARCHIVED
+}
+
+// Models
+model User {
+  id            String          @id @default(cuid())
+  email         String          @unique
+  passwordHash  String
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  lastLogin     DateTime?
+
+  profile       UserProfile?
+  habits        Habit[]
+  habitLogs     HabitLog[]
+  moodLogs      MoodLog[]
+  journalEntries JournalEntry[]
+  goals         Goal[]
+  reminders     Reminder[]
+  aiInsights    AiInsight[]
+}
+
+model UserProfile {
+  id        String   @id @default(cuid())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String   @unique
+  preferredName String?
+  timezone  String   @default("UTC")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Habit {
+  id            String        @id @default(cuid())
+  user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId        String
+  name          String
+  habitType     HabitType     @default(OTHER)
+  targetGoal    Int?
+  frequencyType FrequencyType @default(DAILY)
+  isActive      Boolean       @default(true)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  logs          HabitLog[]
+  reminders     Reminder[]
+  goalHabits    GoalHabit[]
+
+  @@index([userId, isActive])
+}
+
+model HabitLog {
+  id        String   @id @default(cuid())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  habit     Habit    @relation(fields: [habitId], references: [id], onDelete: Cascade)
+  habitId   String
+  logDate   DateTime @default(now())
+  note      String?
+  createdAt DateTime @default(now())
+
+  @@index([userId, logDate])
+  @@unique([userId, habitId, logDate])
+}
+
+model MoodLog {
+  id          String   @id @default(cuid())
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String
+  score       Int      // expected 1-5
+  logTime     DateTime @default(now())
+  energyLevel Int?
+  tagName     String?
+  note        String?
+  createdAt   DateTime @default(now())
+
+  @@index([userId, logTime])
+}
+
+model JournalEntry {
+  id        String   @id @default(cuid())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  entryDate DateTime @default(now())
+  title     String?
+  content   String
+  createdAt DateTime @default(now())
+
+  @@index([userId, entryDate])
+}
+
+model Goal {
+  id        String     @id @default(cuid())
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  title     String
+  description String?
+  startDate DateTime?
+  endDate   DateTime?
+  status    GoalStatus @default(PENDING)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  goalHabits GoalHabit[]
+}
+
+model GoalHabit {
+  id              String   @id @default(cuid())
+  goal            Goal     @relation(fields: [goalId], references: [id], onDelete: Cascade)
+  goalId          String
+  habit           Habit    @relation(fields: [habitId], references: [id], onDelete: Cascade)
+  habitId         String
+  targetFrequency Int?
+  createdAt       DateTime @default(now())
+
+  @@unique([goalId, habitId])
+}
+
+model Reminder {
+  id           String   @id @default(cuid())
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId       String
+  habit        Habit?   @relation(fields: [habitId], references: [id], onDelete: Cascade)
+  habitId      String?
+  label        String?
+  reminderTime DateTime
+  daysOfWeek   Json?
+  timezone     String   @default("UTC")
+  createdAt    DateTime @default(now())
+
+  @@index([userId])
+  @@index([userId, habitId])
+}
+
+model AiInsight {
+  id          String   @id @default(cuid())
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String
+  periodStart DateTime
+  periodEnd   DateTime
+  promptUsed  String
+  responseText String
+  createdAt   DateTime @default(now())
+
+  @@index([userId, periodEnd])
+}
