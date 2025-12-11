@@ -23,7 +23,7 @@ cp .env.example .env
 ```
 
 3. Update `.env` with your configuration:
-   - `EXPO_PUBLIC_API_URL` - Backend API URL (e.g., `http://localhost:3000`)
+   - `EXPO_PUBLIC_API_URL` - Backend API URL (e.g., `http://127.0.0.1:3030`)
    - `EXPO_PUBLIC_GEMINI_API_KEY` - Gemini API key (if needed on frontend)
 
 4. Start the development server:
@@ -125,6 +125,42 @@ eas build --platform android
 (Requires Expo Application Services account)
 
 ## 🐛 Troubleshooting
+
+### iOS Simulator Not Launching
+
+If the iOS simulator doesn't launch even though Xcode is installed, check the following:
+
+1. **Verify Xcode is properly configured**:
+   ```bash
+   # Check if xcode-select points to full Xcode (not just command line tools)
+   xcode-select -p
+   # Should show: /Applications/Xcode.app/Contents/Developer
+   # If it shows /Library/Developer/CommandLineTools, run:
+   sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer
+   ```
+
+2. **Accept Xcode license** (if prompted):
+   ```bash
+   sudo xcodebuild -license accept
+   ```
+
+3. **Install CocoaPods** (required for iOS dependencies):
+   ```bash
+   sudo gem install cocoapods
+   ```
+
+4. **Verify iOS simulators are available**:
+   ```bash
+   xcrun simctl list devices available
+   ```
+
+5. **If still not working, try**:
+   ```bash
+   # Open Xcode once to complete setup
+   open -a Xcode
+   # Then try again
+   npm run ios
+   ```
 
 ### Metro bundler issues
 ```bash
